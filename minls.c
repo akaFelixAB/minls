@@ -1,6 +1,4 @@
 /* No std */
-
-#include <asm-generic/errno-base.h>
 extern int  write(int fildes, const void* buf, unsigned long nbytes);
 extern int  close(int fd);
 extern long getdents64(int fd, void* dirp, unsigned long count);
@@ -22,8 +20,8 @@ int strcmp(const char* a, const char* b) {
 #define stdout 1
 #define stderr 2
 
-#define BLUE "\033[34m"
-#define RESET "\033[0m"
+#define BLUE "\e[1;34m"
+#define RESET "\e[0m"
 
 #define fprint(fd, s)   write(fd, s, strlen(s))
 #define fprintln(fd, s) fprint(fd, s "\n")
@@ -32,7 +30,7 @@ int strcmp(const char* a, const char* b) {
 #define eprint(s)       fprint(stderr, s)
 #define eprintln(s)     fprintln(stderr, s)
 
-#define print_blue(s)   \
+#define print_blue(s) \
     print(BLUE); \
     print(s); \
     print(RESET)
@@ -44,7 +42,7 @@ int strcmp(const char* a, const char* b) {
 
 /* Errno for openat() */
 #define ENOTDIR     20
-#define MACRO       13
+#define EACCES      13
 
 /* Directory entry */
 typedef struct {
@@ -56,7 +54,7 @@ typedef struct {
 } linux_dirent64;
 
 // Entry types
-#define DT_REG  8
+#define DT_REG 8
 
 void usage() {
     println("ls [flag] <path>\n");
